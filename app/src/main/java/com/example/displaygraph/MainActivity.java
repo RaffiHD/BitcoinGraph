@@ -34,10 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtGestrigerPreis;
     private TextView txtAktuellerPreis;
     private ImageView ArrowImage;
-    private Timer myTimer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { // vorgefertigte Methode von Android/Java
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txtNow = (TextView) findViewById(R.id.txtNow);
@@ -51,21 +50,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void imageClick(View view) {
+    public void imageClick(View view) { // Wenn man den Button drückt
 
-        load();
-
-    }
-
-    private void load() {
-
-            getCurrentPrice();
-            getYesterdayPrice();
-
+        getCurrentPrice();
+        getYesterdayPrice();
 
     }
 
-    private void getCurrentPrice(){
+    private void getCurrentPrice(){ // Methode zum Preis holen
         Request request = new Request.Builder()
                 .url(BPI_ENDPOINT_CURRENTPRICE)
                 .build();
@@ -93,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void getYesterdayPrice(){
+    private void getYesterdayPrice(){ // Methode zum gestrigen Preis holen
 
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
@@ -101,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
         cal.add(Calendar.DATE, -1);
         String Year = String.valueOf(cal.get(Calendar.YEAR));
         String Month = ("0" + String.valueOf(cal.get(Calendar.MONTH)+1)).replace("00", "0");
-        //String Day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-        String Day = "12";
+        String Day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
 
         Request request = new Request.Builder()
                 .url(BPI_ENDPOINT_YESTERDAY.replace("$YEAR", Year).replace("$MONTH", Month).replace("$DAY", Day))
@@ -133,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void parseCurrentBpiResponse(String body) {
+    private void parseCurrentBpiResponse(String body) { // Methode zum extrahieren des Preises aus der API-Response
         try {
             StringBuilder builder = new StringBuilder();
 
@@ -152,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void parseYesterdayBpiResponse(String body){
+    private void parseYesterdayBpiResponse(String body){ // Methode zum extrahieren des gestrigen Preises aus der API-Response
 
             Date date = new Date();
             Calendar cal = Calendar.getInstance();
